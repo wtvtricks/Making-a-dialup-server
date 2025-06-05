@@ -8,16 +8,16 @@ Your user needs access to the modem device.</p><pre><code>ls -l /dev/ttyUSB0
 groups
 <br class="ProseMirror-trailingBreak"></code></pre><p>If your user is not in <code>dialout</code>, add them and then <strong>log out and log back in</strong>:</p><pre><code>sudo usermod -a -G dialout $USER
 <br class="ProseMirror-trailingBreak"></code></pre></li></ol><h3><code>mgetty</code> Configuration</h3><p><code>mgetty</code> answers calls and hands off to <code>pppd</code>.</p><ol><li><p><strong>Edit <code>mgetty.config</code>:</strong></p><pre><code>sudo nano /etc/mgetty/mgetty.config
-<br class="ProseMirror-trailingBreak"></code></pre><p>Ensure these lines are present and correctly configured (uncomment if needed):</p><pre><code>port ttyUSB0
-port-owner root
-port-group dialout
-speed 115200
-data-only Y
-rings 4
-modem-check-time 160
-ignore-carrier no
-init-chat "" ATZ OK
-debug 9 # High debug level, useful for troubleshooting
+<br class="ProseMirror-trailingBreak"></code></pre><p>Ensure these lines are present and correctly configured (uncomment if needed):</p><pre><code>debug 9 # High debug level, useful for troubleshooting
+port ttyUSB0
+ port-owner root
+ port-group dialout
+ speed 115200
+ data-only Y
+ rings 4
+ modem-check-time 160
+ ignore-carrier no
+ init-chat "" ATZ OK
 <br class="ProseMirror-trailingBreak"></code></pre></li><li><p><strong>Edit <code>login.config</code>:</strong>
 This file tells <code>mgetty</code> to pass PPP connections to <code>pppd</code>.</p><pre><code>sudo nano /etc/mgetty/login.config
 <br class="ProseMirror-trailingBreak"></code></pre><p>Add or ensure this exact line is present:</p><pre><code>/AutoPPP/ - a_ppp /usr/sbin/pppd file /etc/ppp/options.ttyUSB0
@@ -52,7 +52,7 @@ noipx
 Since <code>+pap</code> is used, credentials must be in <code>/etc/ppp/pap-secrets</code>.</p><pre><code>sudo nano /etc/ppp/pap-secrets
 <br class="ProseMirror-trailingBreak"></code></pre><p>Add a line for each allowed dial-in user. The format is:
 <code>client_username   server_name   password   IP_address</code></p><p><strong>Important:</strong></p><ul><li><p><code>client_username</code>: The username entered on the dial-in client.</p></li><li><p><code>server_name</code>: Your Linux Mint server's exact hostname (run <code>hostname</code> to confirm).</p></li><li><p><code>password</code>: The password entered on the dial-in client.</p></li><li><p><code>IP_address</code>: <code>*</code> allows any IP.</p></li></ul><p>Example (replace with your actual hostname, username, and password):</p><pre><code># ClientName    ServerName              Password            IPAddresses
-my_dial_user    oem-ASUS-ROG-GAMEING    MyStrongPassw0rd    *
+my_dial_user    ServerName   MyStrongPassw0rd    *
 <br class="ProseMirror-trailingBreak"></code></pre></li></ol><h3>IP Forwarding &amp; NAT (Internet Access)</h3><p>To allow dial-up clients to access the internet through your server, you need to enable IP forwarding and set up NAT.</p><ol><li><p><strong>Enable IP Forwarding:</strong></p><pre><code>sudo nano /etc/sysctl.conf
 <br class="ProseMirror-trailingBreak"></code></pre><p>Uncomment or add:</p><pre><code>net.ipv4.ip_forward=1
 <br class="ProseMirror-trailingBreak"></code></pre><p>Save, exit, and apply changes:</p><pre><code>sudo sysctl -p
