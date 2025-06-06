@@ -8,7 +8,8 @@ Your user needs access to the modem device.</p><pre><code>ls -l /dev/ttyUSB0
 groups
 <br class="ProseMirror-trailingBreak"></code></pre><p>If your user is not in <code>dialout</code>, add them and then <strong>log out and log back in</strong>:</p><pre><code>sudo usermod -a -G dialout $USER
 <br class="ProseMirror-trailingBreak"></code></pre></li></ol><h3><code>mgetty</code> Configuration</h3><p><code>mgetty</code> answers calls and hands off to <code>pppd</code>.</p><ol><li><p><strong>Edit <code>mgetty.config</code>:</strong></p><pre><code>sudo nano /etc/mgetty/mgetty.config
-<br class="ProseMirror-trailingBreak"></code></pre><p>Ensure these lines are present and correctly configured (uncomment if needed):</p><pre><code>debug 9 # High debug level, useful for troubleshooting                                                                           
+<br class="ProseMirror-trailingBreak"></code></pre><p>Ensure these lines are present and correctly configured (uncomment if needed):</p><pre><code>debug 9 # High debug level, useful for troubleshooting
+#space
 port ttyUSB0
  port-owner root
  port-group dialout
