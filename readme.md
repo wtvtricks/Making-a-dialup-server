@@ -19,6 +19,27 @@ port ttyUSB0
  modem-check-time 160
  ignore-carrier no
  init-chat "" ATZ OK
+
+ 3. Create a `systemd` service for mgetty, by editing `/lib/systemd/system/mgetty@.service` (note the @) with your text editor of choice as root or sudo.
+
+```
+[Unit]
+Description=External Modem %I
+Documentation=man:mgetty(8)
+Requires=systemd-udev-settle.service
+After=systemd-udev-settle.service
+
+[Service]
+Type=simple
+ExecStart=/sbin/mgetty /dev/%i
+Restart=always
+PIDFile=/var/run/mgetty.pid.%i
+
+[Install]
+WantedBy=multi-user.target
+```
+
+ 
 <br class="ProseMirror-trailingBreak"></code></pre></li><li><p><strong>Edit <code>login.config</code>:</strong>
 This file tells <code>mgetty</code> to pass PPP connections to <code>pppd</code>.</p><pre><code>sudo nano /etc/mgetty/login.config
 <br class="ProseMirror-trailingBreak"></code></pre><p>Add or ensure this exact line is present:</p><pre><code>/AutoPPP/ - a_ppp /usr/sbin/pppd file /etc/ppp/options.ttyUSB0
