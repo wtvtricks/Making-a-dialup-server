@@ -9,7 +9,12 @@
 port="ttyUSB0"
 speed="11200" # Corrected speed to 11200, as 112000 is unusual and might be a typo.
 maininterfaceport="eth0"
-
+rings="4"
+user="dialup"
+password="secret"
+#ServerName your user@ServerName dont put @ in it
+ServerName="ServerName"
+ip="192.168.1.278"
 # --- Pre-installation Checks and Preparations ---
 echo "--- Checking for sudo and common utilities ---"
 if ! command -v sudo &> /dev/null; then
@@ -42,7 +47,7 @@ port /dev/$port
  port-group dialout
  speed $speed
  data-only Y
- rings 4
+ rings $rings
  modem-check-time 160
  ignore-carrier no
  init-chat "" ATZ OK
@@ -94,7 +99,7 @@ if [ $? -ne 0 ]; then echo "Error: Failed to write to PPP options file '$OPTIONS
 # --- Configure PAP secrets ---
 echo "--- Configuring PAP secrets ---"
 sudo tee /etc/ppp/pap-secrets > /dev/null <<EOF
-my_dial_user    ServerName   MyStrongPassw0rd    * 192.168.1.xxx
+$dialup    $ServerName   $Password    $ip
 EOF
 if [ $? -ne 0 ]; then echo "Error: Failed to configure pap-secrets."; exit 1; fi
 
@@ -159,3 +164,4 @@ echo "--- Script execution finished ---"
 echo "Done!"
 echo "Please check the system logs (e.g., 'journalctl -xe') and mgetty logs (e.g., '/var/log/mgetty.log.$port')."
 echo "If it's still not working, please consult the Troubleshooting section on your GitHub."
+echo "Also to put in user's for ppp go to and change /etc/ppp/pap-secrets"
