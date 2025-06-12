@@ -10,11 +10,12 @@ port="ttyUSB0"
 speed="11200" # Corrected speed to 11200, as 112000 is unusual and might be a typo.
 maininterfaceport="eth0"
 rings="4"
-user="dialup"
-password="secret"
-#ServerName your user@ServerName dont put @ in it
+User="dialup"
+Password="secret"
+#ServerName your user@"ServerName" dont put @ in it
 ServerName="ServerName"
-ip="192.168.1.278"
+local client ip address 
+ip="192.168.1.201"
 # --- Pre-installation Checks and Preparations ---
 echo "--- Checking for sudo and common utilities ---"
 if ! command -v sudo &> /dev/null; then
@@ -99,7 +100,7 @@ if [ $? -ne 0 ]; then echo "Error: Failed to write to PPP options file '$OPTIONS
 # --- Configure PAP secrets ---
 echo "--- Configuring PAP secrets ---"
 sudo tee /etc/ppp/pap-secrets > /dev/null <<EOF
-$dialup    $ServerName   $Password    $ip
+$User    $ServerName   $Password    $ip
 EOF
 if [ $? -ne 0 ]; then echo "Error: Failed to configure pap-secrets."; exit 1; fi
 
