@@ -40,30 +40,30 @@ WantedBy=multi-user.target
 
 <br class="ProseMirror-trailingBreak"></code></pre></li></ol><h3><code>ppp</code> Configuration</h3><p><code>pppd</code> manages the actual network connection for the dial-in client.</p><ol><li><p><strong>Create/Edit <code>options.ttyUSB0</code>:</strong>
 This file defines PPP options for the <code>ttyUSB0</code> connection.</p><pre><code>sudo nano /etc/ppp/options.ttyUSB0
-<br class="ProseMirror-trailingBreak"></code></pre><p>Add the following content (adjust IP addresses as needed):</p><pre><code># Define the DNS server for the client to use
+<br class="ProseMirror-trailingBreak"></code></pre><p>Add the following content (adjust IP addresses as needed):</p><pre><code>
 ms-dns 8.8.8.8
-# Local and remote IP addresses (Server IP:Client IP)
+
 192.168.200.1:192.168.200.2
-# async character map should be 0
+
 asyncmap 0
-# Require authentication
+
 auth
-# Use hardware flow control
+
 crtscts
-# We want exclusive access to the modem device
+
 lock
-# Show pap passwords in log files to help with debugging (Remove in production!)
+
 show-password
-# Require the client to authenticate with PAP (as found in debugging)
+
 +pap
-# If you are having trouble with auth enable debugging
+
 debug
-# Heartbeat for control messages, used to determine if the client connection has dropped
+
 lcp-echo-interval 30
 lcp-echo-failure 4
-# Cache the client mac address in the arp system table
+
 proxyarp
-# Disable the IPXCP and IPX protocols.
+
 noipx
 <br class="ProseMirror-trailingBreak"></code></pre></li><li><p><strong>Configure PAP Authentication Secrets:</strong>
 Since <code>+pap</code> is used, credentials must be in <code>/etc/ppp/pap-secrets</code>.</p><pre><code>sudo nano /etc/ppp/pap-secrets
