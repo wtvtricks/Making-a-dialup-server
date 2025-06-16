@@ -1,5 +1,5 @@
 #!/bin/bash
-#"made by @oem"
+#made by @oemat2
 # This script configures mgetty and PPP for a dial-up server,
 # including network forwarding and iptables rules.
 
