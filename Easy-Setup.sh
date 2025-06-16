@@ -7,6 +7,7 @@
 # Note: In systemd service file, %i will be replaced by the instance name (e.g., ttyUSB0).
 # So, 'port' should be just 'ttyUSB0' here without '/dev/'.
 port="ttyUSB0"
+port="tty"
 speed="11200" # Corrected speed to 11200, as 112000 is unusual and might be a typo.
 maininterfaceport="eth0"
 rings="4"
