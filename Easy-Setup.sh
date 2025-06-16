@@ -3,19 +3,23 @@
 # This script configures mgetty and PPP for a dial-up server,
 # including network forwarding and iptables rules.
 
-# Define port, speed and maininterfaceport
+# Define port, speed, maininterfaceport, rings, user, password, ServerName, and Client local IP address
 # Note: In systemd service file, %i will be replaced by the instance name (e.g., ttyUSB0).
 # So, 'port' should be just 'ttyUSB0' here without '/dev/'.
 port="ttyUSB0"
-port="tty"
-speed="11200" # Corrected speed to 11200, as 112000 is unusual and might be a typo.
+# Default speed is 112000
+speed="112000" 
+#Your main internet connection to find it use "ip a"
 maininterfaceport="eth0"
+#How meny rings until modern answer 
 rings="4"
+#Your user name for ppp
 User="dialup"
+#Your password for ppp
 Password="secret"
 #ServerName your user@"ServerName" dont put @ in it
 ServerName="ServerName"
-local client ip address 
+#local client ip address 
 ip="192.168.1.201"
 # --- Pre-installation Checks and Preparations ---
 echo "--- Checking for sudo and common utilities ---"
