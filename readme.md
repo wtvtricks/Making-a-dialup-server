@@ -42,28 +42,17 @@ WantedBy=multi-user.target
 This file defines PPP options for the <code>ttyUSB0</code> connection.</p><pre><code>sudo nano /etc/ppp/options.ttyUSB0
 <br class="ProseMirror-trailingBreak"></code></pre><p>Add the following content (adjust IP addresses as needed):</p><pre><code>
 ms-dns 8.8.8.8
-
 192.168.200.1:192.168.200.2
-
 asyncmap 0
-
 auth
-
 crtscts
-
 lock
-
 show-password
-
 +pap
-
 debug
-
 lcp-echo-interval 30
 lcp-echo-failure 4
-
 proxyarp
-
 noipx
 <br class="ProseMirror-trailingBreak"></code></pre></li><li><p><strong>Configure PAP Authentication Secrets:</strong>
 Since <code>+pap</code> is used, credentials must be in <code>/etc/ppp/pap-secrets</code>.</p><pre><code>sudo nano /etc/ppp/pap-secrets
